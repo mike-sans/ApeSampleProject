@@ -22,8 +22,7 @@ def deploy_simple_storage():
     if networks.network.name != "mainnet":
         account[0].set_autosign(True)
 
-    # print(account)
-    # print(account2)
+    # print(account[0])
     # balance_wei = account[0].balance
     # balance_eth = balance_wei / (10**18)
     # print(f"Balance: {balance_eth} Eth")
