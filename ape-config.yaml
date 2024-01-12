@@ -1,0 +1,43 @@
+name: sampleProject
+# plugins:
+# - name: solidity
+# - name: infura
+# - name: networks
+# - name: ganache
+# networks
+
+ethereum:
+  default_network: sepolia
+  # default_network: mainnet
+  # default_network: local
+  # test:
+    # default_network: local
+
+  mainnet: 
+    default_provider: infura
+  goerli:
+    default_provider: infura
+  sepolia:
+    default_provider: infura
+  local:
+    default_provider: test
+  # local:
+    # ganache:
+    # default_provider: ganache
+    # providers:
+    # infura:
+        # api_key: $WEB3_INFURA_PROJECT_ID
+
+# test:
+#   mnemonic: test test test test test test test test test test test junk
+#   # default_network: local
+#   number_of_accounts: 5
+
+# ganache:
+#   server:
+#     port: 8555
+#   wallet:
+#     unlocked_accounts:
+#       - 0x04029baca527b69247dbe9243dfc9b5d12c7ba60
+#       # - 0x4Ff2610fde34d4B0154bd8b5fA7626123509Ad35
+#       - 0xd8da6bf26964af9d7eed9e03e53415d37aa96045
