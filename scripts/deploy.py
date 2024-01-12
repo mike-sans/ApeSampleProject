@@ -23,8 +23,7 @@ def deploy_simple_storage():
         account[0].set_autosign(True)
 
     # print(account[0])
-    # balance_wei = account[0].balance
-    # balance_eth = balance_wei / (10**18)
+    # balance_eth = account[0].balance / (10**18)
     # print(f"Balance: {balance_eth} Eth")
 
     # # two ways to do the same thing
