@@ -1,43 +1,42 @@
 name: sampleProject
-# plugins:
-# - name: solidity
-# - name: infura
-# - name: networks
-# - name: ganache
-# networks
+plugins:
+- name: solidity
+- name: infura
+- name: networks
+- name: test
 
 ethereum:
-  default_network: sepolia
-  # default_network: mainnet
-  # default_network: local
-  # test:
-    # default_network: local
-
+  default_network: mainnet-fork
   mainnet: 
     default_provider: infura
+  mainnet_fork:
+    default_provider: foundry
   goerli:
     default_provider: infura
   sepolia:
     default_provider: infura
   local:
     default_provider: test
-  # local:
-    # ganache:
-    # default_provider: ganache
-    # providers:
-    # infura:
-        # api_key: $WEB3_INFURA_PROJECT_ID
 
-# test:
-#   mnemonic: test test test test test test test test test test test junk
-#   # default_network: local
-#   number_of_accounts: 5
+foundry:
+  host: http://localhost:8545
+  fork:
+    ethereum:
+      mainnet:
+        upstream_provider: infura
 
-# ganache:
-#   server:
-#     port: 8555
-#   wallet:
-#     unlocked_accounts:
-#       - 0x04029baca527b69247dbe9243dfc9b5d12c7ba60
-#       # - 0x4Ff2610fde34d4B0154bd8b5fA7626123509Ad35
-#       - 0xd8da6bf26964af9d7eed9e03e53415d37aa96045
+deployments:
+  ethereum:
+    mainnet:
+      - contract_type: AggregatorV3Interface
+        address: "0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419"
+    mainnet-fork:
+      - contract_type: AggregatorV3Interface
+        address: "0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419"
+    sepolia:
+      - contract_type: AggregatorV3Interface
+        address: "0x694AA1769357215DE4FAC081bf1f309aDC325306"
+    
+test:
+  mnemonic: test test test test test test test test test test test junk
+  number_of_accounts: 5

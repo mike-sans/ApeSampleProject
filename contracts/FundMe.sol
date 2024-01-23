@@ -5,23 +5,23 @@ import "./interfaces/AggregatorV3Interface.sol";
 
 contract FundMe {
     address owner;
-
     address[] public funders;
+    AggregatorV3Interface public priceFeed;
 
-    // uint256 public bungo;
-
-    constructor() {
+    constructor(address _priceFeed) {
+        priceFeed = AggregatorV3Interface(_priceFeed);
         owner = msg.sender;
     }
 
     mapping(address => uint256) public addressToAmountFunded;
 
+    uint256 public minimumUSD = uint256(1.50 * 10 ** 18);
+
     //uint256 public bunny;
 
     function fund() public payable {
         //now we want to require a minimum payment as defined in $USD, so we need the conversion rate: Oracle time!
-        uint256 minimumUSD = 150 * 10 ** 18;
-        // //bunny = msg.value;
+        // uint256 minimumUSD = uint256(1.50 * 10 ** 18);
         require(
             getConversionRate(msg.value) >= minimumUSD,
             "You need to spend more ETH!"
@@ -29,29 +29,21 @@ contract FundMe {
 
         addressToAmountFunded[msg.sender] += msg.value;
         funders.push(msg.sender);
-        // bungo = msg.value;
     }
 
-    // function viewshit() public view returns (uint256) {
-    //     // uint256 minimumUSD = 1 * 10 ** 18;
-    //     // return (minimumUSD, getConversionRate(bungo));
-    //     return uint256((getConversionRate(bungo)));
-    //     // return bungo;
-    // }
+    function getEntranceFee() public view returns (uint256) {
+        uint256 price = getPrice();
+        uint256 precision = 1 * 10 ** 18;
+        // return uint256((minimumUSD * precision) / price);
+        return price;
+    }
 
     function getVersion() public view returns (uint256) {
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(
-            0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
-        );
         return priceFeed.version();
     }
 
     function getPrice() public view returns (uint256) {
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(
-            0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
-        );
         (, int256 answer, , , ) = priceFeed.latestRoundData();
-
         return uint256(answer * (10 ** 10));
     }
 
@@ -59,7 +51,6 @@ contract FundMe {
         uint256 ethAmount
     ) public view returns (uint256) {
         uint256 ethPrice = getPrice();
-
         uint256 ethAmountInUSD = (ethPrice * ethAmount) / (10 ** 18);
         return ethAmountInUSD;
     }
@@ -70,7 +61,6 @@ contract FundMe {
     }
 
     function withdraw() public onlyOwner {
-        //require(msg.sender == owner);
         address payable payableOwner = payable(msg.sender);
         payableOwner.transfer(address(this).balance);
 
