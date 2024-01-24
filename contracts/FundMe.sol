@@ -4,7 +4,7 @@ pragma solidity >=0.6.6 <0.9.0;
 import "./interfaces/AggregatorV3Interface.sol";
 
 contract FundMe {
-    address owner;
+    address public owner;
     address[] public funders;
     AggregatorV3Interface public priceFeed;
 
@@ -17,11 +17,7 @@ contract FundMe {
 
     uint256 public minimumUSD = uint256(1.50 * 10 ** 18);
 
-    //uint256 public bunny;
-
     function fund() public payable {
-        //now we want to require a minimum payment as defined in $USD, so we need the conversion rate: Oracle time!
-        // uint256 minimumUSD = uint256(1.50 * 10 ** 18);
         require(
             getConversionRate(msg.value) >= minimumUSD,
             "You need to spend more ETH!"
@@ -34,8 +30,7 @@ contract FundMe {
     function getEntranceFee() public view returns (uint256) {
         uint256 price = getPrice();
         uint256 precision = 1 * 10 ** 18;
-        // return uint256((minimumUSD * precision) / price);
-        return price;
+        return uint256((minimumUSD * precision) / price);
     }
 
     function getVersion() public view returns (uint256) {
